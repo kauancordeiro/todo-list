@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/models/Todo.dart';
 import 'package:todo_list/widgets/TaskListItem.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -9,7 +10,7 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  List<String> tasks = [];
+  List<Todo> tasks = [];
 
   final TextEditingController taskController = TextEditingController();
 
@@ -25,7 +26,7 @@ class _TodoListPageState extends State<TodoListPage> {
               children: [
                 Row(
                   children: [
-                     Expanded(
+                    Expanded(
                       flex: 3,
                       child: TextField(
                         controller: taskController,
@@ -40,10 +41,14 @@ class _TodoListPageState extends State<TodoListPage> {
                       width: 8,
                     ),
                     ElevatedButton(
-                      onPressed: (){
-                        String text= taskController.text;
+                      onPressed: () {
+                        String text = taskController.text;
                         setState(() {
-                          tasks.add(text);
+                          Todo newTodo = Todo(
+                            title: text,
+                            date: DateTime.now(),
+                          );
+                          tasks.add(newTodo);
                         });
                         taskController.clear();
                       },
@@ -69,8 +74,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      for(String task in tasks)
-                      Tasklistitem(title: task),
+                      for (Todo task in tasks) Tasklistitem(task: task),
                     ],
                   ),
                 ),

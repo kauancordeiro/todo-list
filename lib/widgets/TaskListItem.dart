@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-class Tasklistitem extends StatelessWidget {
-  const Tasklistitem({super.key, required this.title});
+import 'package:intl/intl.dart';
 
-  final String title;
+import '../models/Todo.dart';
+
+class Tasklistitem extends StatelessWidget {
+  const Tasklistitem({super.key, required this.task});
+
+  final Todo task;
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +17,22 @@ class Tasklistitem extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(vertical: 2),
       padding: const EdgeInsets.all(16),
-      child:  Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('20/11/2014', style: TextStyle(
-            fontSize: 12,
-          ),),
-          Text(title, style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),),
+          Text(
+            DateFormat('dd/MMM/yyyy - HH:mm').format(task.date),
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
+          Text(
+            task.title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ],
       ),
     );
