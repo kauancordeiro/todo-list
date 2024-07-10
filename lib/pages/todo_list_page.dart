@@ -10,7 +10,7 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  List<Todo> tasks = [];
+  List<Todo> todos = [];
 
   final TextEditingController taskController = TextEditingController();
 
@@ -48,7 +48,7 @@ class _TodoListPageState extends State<TodoListPage> {
                             title: text,
                             date: DateTime.now(),
                           );
-                          tasks.add(newTodo);
+                          todos.add(newTodo);
                         });
                         taskController.clear();
                       },
@@ -74,7 +74,11 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      for (Todo task in tasks) Tasklistitem(task: task),
+                      for (Todo task in todos)
+                        Tasklistitem(
+                          todo: task,
+                          onDelete: onDelete,
+                        ),
                     ],
                   ),
                 ),
@@ -85,7 +89,7 @@ class _TodoListPageState extends State<TodoListPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Você possui ${tasks.length} tarefas pendentes',
+                        'Você possui ${todos.length} tarefas pendentes',
                       ),
                     ),
                     SizedBox(
@@ -112,6 +116,13 @@ class _TodoListPageState extends State<TodoListPage> {
         ),
       ),
     );
+  }
+
+  void onDelete(Todo todo) {
+    setState(() {
+      todos.remove(todo);
+    });
+
   }
 
   void add() {
