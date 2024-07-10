@@ -98,7 +98,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       width: 8,
                     ),
                     ElevatedButton(
-                      onPressed: add,
+                      onPressed: showDeleteTodosConfirmDialog,
                       child: Text('Limpar tudo'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff00d7f3),
@@ -140,9 +140,11 @@ class _TodoListPageState extends State<TodoListPage> {
           label: "Desfazer",
           textColor: const Color(0xff00d7f3),
           onPressed: () {
-            setState(() {
-              todos.insert(deletedTodoPos!, deletedTodo!);
-            });
+            setState(
+              () {
+                todos.insert(deletedTodoPos!, deletedTodo!);
+              },
+            );
           },
         ),
         duration: const Duration(seconds: 5),
@@ -150,7 +152,33 @@ class _TodoListPageState extends State<TodoListPage> {
     );
   }
 
-  void add() {
+  void showDeleteTodosConfirmDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Deseja limpar tudo ?"),
+        content: Text("Você tem certeza que deseja apagar todas tarefas ?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            style: TextButton.styleFrom(foregroundColor: Color(0xff00d7f3)),
+            child: Text("Cancelar"),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                clear();
+              },
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text("Limpar tudo"))
+        ],
+      ),
+    );
+  }
+
+  void clear() {
     setState(() {
       todos.clear();
     });
